@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.entity.UserInfoDO">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="NICK_NAME" jdbcType="VARCHAR" property="nickName" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="MOBILE_NUMBER" jdbcType="INTEGER" property="mobileNumber" />
+    <result column="WECHAT" jdbcType="VARCHAR" property="wechat" />
+    <result column="SEX" jdbcType="CHAR" property="sex" />
+    <result column="AGE" jdbcType="INTEGER" property="age" />
+    <result column="CITY" jdbcType="VARCHAR" property="city" />
+    <result column="SIGN" jdbcType="VARCHAR" property="sign" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    USER_ID, NICK_NAME, `NAME`, MOBILE_NUMBER, WECHAT, SEX, AGE, CITY, SIGN
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    update user_info
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="NICK_NAME = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when USER_ID = #{item.userId,jdbcType=INTEGER} then #{item.nickName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`NAME` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when USER_ID = #{item.userId,jdbcType=INTEGER} then #{item.name,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="MOBILE_NUMBER = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when USER_ID = #{item.userId,jdbcType=INTEGER} then #{item.mobileNumber,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="WECHAT = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when USER_ID = #{item.userId,jdbcType=INTEGER} then #{item.wechat,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="SEX = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when USER_ID = #{item.userId,jdbcType=INTEGER} then #{item.sex,jdbcType=CHAR}
+        </foreach>
+      </trim>
+      <trim prefix="AGE = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when USER_ID = #{item.userId,jdbcType=INTEGER} then #{item.age,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="CITY = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when USER_ID = #{item.userId,jdbcType=INTEGER} then #{item.city,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="SIGN = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when USER_ID = #{item.userId,jdbcType=INTEGER} then #{item.sign,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where USER_ID in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.userId,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    insert into user_info
+    (USER_ID, NICK_NAME, `NAME`, MOBILE_NUMBER, WECHAT, SEX, AGE, CITY, SIGN)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.userId,jdbcType=INTEGER}, #{item.nickName,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, 
+        #{item.mobileNumber,jdbcType=INTEGER}, #{item.wechat,jdbcType=VARCHAR}, #{item.sex,jdbcType=CHAR}, 
+        #{item.age,jdbcType=INTEGER}, #{item.city,jdbcType=VARCHAR}, #{item.sign,jdbcType=VARCHAR}
+        )
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.example.demo.entity.UserInfoDO">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    insert into user_info
+    (USER_ID, NICK_NAME, `NAME`, MOBILE_NUMBER, WECHAT, SEX, AGE, CITY, SIGN)
+    values
+    (#{userId,jdbcType=INTEGER}, #{nickName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{mobileNumber,jdbcType=INTEGER}, #{wechat,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, 
+      #{age,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR})
+    on duplicate key update 
+    USER_ID = #{userId,jdbcType=INTEGER}, 
+    NICK_NAME = #{nickName,jdbcType=VARCHAR}, 
+    `NAME` = #{name,jdbcType=VARCHAR}, 
+    MOBILE_NUMBER = #{mobileNumber,jdbcType=INTEGER}, 
+    WECHAT = #{wechat,jdbcType=VARCHAR}, 
+    SEX = #{sex,jdbcType=CHAR}, 
+    AGE = #{age,jdbcType=INTEGER}, 
+    CITY = #{city,jdbcType=VARCHAR}, 
+    SIGN = #{sign,jdbcType=VARCHAR}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.example.demo.entity.UserInfoDO">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="nickName != null">
+        NICK_NAME,
+      </if>
+      <if test="name != null">
+        `NAME`,
+      </if>
+      <if test="mobileNumber != null">
+        MOBILE_NUMBER,
+      </if>
+      <if test="wechat != null">
+        WECHAT,
+      </if>
+      <if test="sex != null">
+        SEX,
+      </if>
+      <if test="age != null">
+        AGE,
+      </if>
+      <if test="city != null">
+        CITY,
+      </if>
+      <if test="sign != null">
+        SIGN,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNumber != null">
+        #{mobileNumber,jdbcType=INTEGER},
+      </if>
+      <if test="wechat != null">
+        #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        #{sign,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null">
+        NICK_NAME = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `NAME` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNumber != null">
+        MOBILE_NUMBER = #{mobileNumber,jdbcType=INTEGER},
+      </if>
+      <if test="wechat != null">
+        WECHAT = #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        SEX = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="age != null">
+        AGE = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        SIGN = #{sign,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
